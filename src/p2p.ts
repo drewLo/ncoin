@@ -9,7 +9,6 @@ enum MessageType {
     QUERY_ALL = 1,
     RESPONSE_BLOCKCHAIN = 2,
 }
-
 class Message {
     public type: MessageType;
     public data: any;
@@ -62,10 +61,10 @@ const initMessageHandler = (ws: WebSocket) => {
                     console.log('invalid blocks received:');
                     console.log(message.data)
                     break;
-        }
+                }
                 handleBlockchainResponse(receivedBlocks);
                 break;
-    }
+        }
     });
 };
 
@@ -103,7 +102,7 @@ const handleBlockchainResponse = (receivedBlocks: Block[]) => {
     if (!isValidBlockStructure(latestBlockReceived)) {
         console.log('block structur not valid');
         return;
-}
+    }
     const latestBlockHeld: Block = getLatestBlock();
     if (latestBlockReceived.index > latestBlockHeld.index) {
         console.log('blockchain possibly behind, we got: ' 
