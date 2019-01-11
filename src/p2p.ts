@@ -125,3 +125,13 @@ const handleBlockchainResponse = (receivedBlocks: Block[]) => {
 const broadcastLatest = (): void => {
     broadcast(responseLatestMsg());
 };
+
+const connectToPeers = (newPeer: string): void => {
+    const ws: WebSocket = new WebSocket(newPeer);
+    ws.on('open', () => {
+        initConnection(ws);
+    });
+    ws.on('error', () => {
+        console.log('connection failed');
+    });
+};
