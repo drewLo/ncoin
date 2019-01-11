@@ -68,4 +68,7 @@ const initMessageHandler = (ws: WebSocket) => {
     }
     });
 };
+const write = (ws: WebSocket, message: Message): void => ws.send(JSON.stringify(message));
+const broadcast = (message: Message): void => sockets.forEach((socket) => write(socket,message)); 
+
 }
