@@ -121,3 +121,7 @@ const handleBlockchainResponse = (receivedBlocks: Block[]) => {
         console.log('received blockchain is not longer than received blockchain. do nothing');
     }
 };
+
+const broadcastLatest = (): void => {
+    broadcast(responseLatestMsg());
+};
