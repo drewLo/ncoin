@@ -135,3 +135,5 @@ const connectToPeers = (newPeer: string): void => {
         console.log('connection failed');
     });
 };
+
+export {connectToPeers, broadcastLatest, initP2PServer, getSockets};
