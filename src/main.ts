@@ -25,9 +25,11 @@ const initHttpServer = (myHttpPort: number) => {
         connectToPers(req.body.peer);
         res.send();
     });
+
     app.listen(myHttpPort, () => {
         console.log('Listening ttp on port: ' + myHttpPort);
     });
 };
+
 initHttpServer(httpPort);
 initP2PServer(p2pPort);
