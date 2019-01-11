@@ -2,12 +2,12 @@ import * as WebSocket from 'ws';
 import { Server } from 'ws';
 import { addBlockToChain, Block, getBlockchain, getLatestBlock, isValidBlockStructure, replaceChain } from './blockchain';
 
-const sockets: webSocket[] = [];
+const sockets: WebSocket[] = [];
 
 enum MessageType {
     QUERY_LATEST = 0,
-    QUERY_ALL =1,
-    RSPONSE_BLOCKCHAIN = 2,
+    QUERY_ALL = 1,
+    RESPONSE_BLOCKCHAIN = 2,
 }
 
 class Message {
@@ -25,7 +25,7 @@ const initP2PServer = (p2pPort: number) => {
 
 const getSockets = () => sockets;
 
-const initConnection = (we: WebSocket) => {
+const initConnection = (ws: WebSocket) => {
     sockets.push(ws);
     initMessageHandler(ws);
     initErrorHandler(ws);
@@ -41,14 +41,14 @@ const JSONToObject = <T>(data: string): T => {
     }
 };
 
-const initMessageHandler = (ws: Websocket) => {
-    ws.on('message', data: string) => {
+const initMessageHandler = (ws: WebSocket) => {
+    ws.on('message', (data: string) => {
         const message: Message = JSONToObject<Message>(data);
-        if (messag === null) {
+        if (message === null) {
             console.log('could not parse received JSON message: ' + data);
             return;
         }
-        console.log("Received message' + JSON.stringify(message));
+        console.log('Received message' + JSON.stringify(message));
         switch (message.type) {
             case MessageType.QUERY_LATEST:
         }
