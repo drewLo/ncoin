@@ -29,3 +29,5 @@ const initHttpServer = (myHttpPort: number) => {
         console.log('Listening ttp on port: ' + myHttpPort);
     });
 };
+initHttpServer(httpPort);
+initP2PServer(p2pPort);
