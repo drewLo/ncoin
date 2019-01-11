@@ -21,6 +21,9 @@ const genesisBlock: Block = new Block(
     0, '816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7', null, 1465154705, 'my genesis block!!'
 );
 
+
+let blockchain: Block[] = [genesisBlock];
+
 const generateNextBlock = (blockData: string) => {
     const previousBlock: Block = getLatestBlock();
     const nextIndex: number = previousBlock.index + 1;
