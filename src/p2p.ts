@@ -83,4 +83,12 @@ const responseLatestMsg = (): Message => ({
     'type': MessageType.RESPONSE_BLOCKCHAIN,
     'data': JSON.stringify([getLatestBlock()])
 });
+const initErrorHandler = (ws: WebSocket) => {
+    const closeConnection = (myWs: WebSocket) => {
+        console.log('connection failed to peer: ' + myWs.url);
+        sockets.splice(sockets.indexOf(myWs), 1);
+    };
+    ws.on('close', () => closeConnection(ws));
+    ws.on('error', () => closeConnection(ws));
+};
 }
