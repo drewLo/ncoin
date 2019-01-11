@@ -75,7 +75,7 @@ const isValidBlockStructure = (block: Block): boolean => {
 };
 
 const isValidChain = (blockchainToValidate: Block[]): boolean => {
-    const isValdGenesis = (block: Block): boolean => {
+    const isValidGenesis = (block: Block): boolean => {
         return JSON.stringify(block) === JSON.stringify(genesisBlock);
     };
 
