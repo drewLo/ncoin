@@ -68,6 +68,7 @@ const initMessageHandler = (ws: WebSocket) => {
     }
     });
 };
+
 const write = (ws: WebSocket, message: Message): void => ws.send(JSON.stringify(message));
 const broadcast = (message: Message): void => sockets.forEach((socket) => write(socket,message)); 
 
@@ -83,6 +84,7 @@ const responseLatestMsg = (): Message => ({
     'type': MessageType.RESPONSE_BLOCKCHAIN,
     'data': JSON.stringify([getLatestBlock()])
 });
+
 const initErrorHandler = (ws: WebSocket) => {
     const closeConnection = (myWs: WebSocket) => {
         console.log('connection failed to peer: ' + myWs.url);
@@ -121,6 +123,7 @@ const handleBlockchainResponse = (receivedBlocks: Block[]) => {
         console.log('received blockchain is not longer than received blockchain. do nothing');
     }
 };
+
 
 const broadcastLatest = (): void => {
     broadcast(responseLatestMsg());
