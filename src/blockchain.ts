@@ -24,6 +24,10 @@ const genesisBlock: Block = new Block(
 
 let blockchain: Block[] = [genesisBlock];
 
+const getBlockchain = (): Block[] => blockchain;
+
+const getLatestBlock = (): Block => blockchain[blockchain.length-1];
+
 const generateNextBlock = (blockData: string) => {
     const previousBlock: Block = getLatestBlock();
     const nextIndex: number = previousBlock.index + 1;
