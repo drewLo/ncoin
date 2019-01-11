@@ -1,7 +1,6 @@
 import * as WebSocket from 'ws';
 import { Server } from 'ws';
-import { addBlockToChain, Block, getBlockchain, geetLatestBlock, isValidBlockStructure, replaceChain } from './block';
-import { write } from 'fs';
+import { addBlockToChain, Block, getBlockchain, getLatestBlock, isValidBlockStructure, replaceChain } from './blockchain';
 
 const sockets: webSocket[] = [];
 
