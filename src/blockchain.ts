@@ -37,7 +37,6 @@ const generateNextBlock = (blockData: string) => {
     return newBlock;
 };
 
-let blockchain: Block[] = [genesisBlock];
 
 const isValidnewBlock = (newBlock: Block, previousBlock: Block): boolean => {
     if (previousBlock.index + 1 !== newBlock.index) {
