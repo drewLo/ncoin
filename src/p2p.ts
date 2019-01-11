@@ -75,4 +75,12 @@ const queryChainLengthMsg = (): Message => ({'type': MessageType.QUERY_LATEST, '
 
 const queryAllMsg = (): Message => ({'type': MessageType.QUERY_ALL, 'data': null});
 
+const responseChainMsg = (): Message => ({
+    'type': MessageType.RESPONSE_BLOCKCHAIN, 'data': JSON.stringify(getBlockchain())
+});
+
+const responseLatestMsg = (): Message => ({
+    'type': MessageType.RESPONSE_BLOCKCHAIN,
+    'data': JSON.stringify([getLatestBlock()])
+});
 }
