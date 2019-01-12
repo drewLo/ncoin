@@ -21,12 +21,11 @@ const genesisBlock: Block = new Block(
     0, '816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7', null, 1465154705, 'my genesis block!!'
 );
 
-
 let blockchain: Block[] = [genesisBlock];
 
 const getBlockchain = (): Block[] => blockchain;
 
-const getLatestBlock = (): Block => blockchain[blockchain.length-1];
+const getLatestBlock = (): Block => blockchain[blockchain.length - 1];
 
 const generateNextBlock = (blockData: string) => {
     const previousBlock: Block = getLatestBlock();
@@ -36,7 +35,6 @@ const generateNextBlock = (blockData: string) => {
     const newBlock: Block = new Block(nextIndex, nextHash, previousBlock.hash, nextTimestamp, blockData);
     return newBlock;
 };
-
 
 const calculateHashForBlock = (block: Block): string => 
     calculateHash(block.index, block.previousHash, block.timestamp,block.data);
