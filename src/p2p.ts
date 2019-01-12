@@ -19,7 +19,7 @@ const initP2PServer = (p2pPort: number) => {
     server.on('connection', (ws: WebSocket) => {
         initConnection(ws);
     });
-    console.log('listening websocket p2p port on: ' + p2pPort);
+    console.log('Listening websocket p2p port on: ' + p2pPort);
 };
 
 const getSockets = () => sockets;
@@ -100,7 +100,7 @@ const handleBlockchainResponse = (receivedBlocks: Block[]) => {
     }
     const latestBlockReceived: Block = receivedBlocks[receivedBlocks.length - 1];
     if (!isValidBlockStructure(latestBlockReceived)) {
-        console.log('block structur not valid');
+        console.log('block structure not valid');
         return;
     }
     const latestBlockHeld: Block = getLatestBlock();
