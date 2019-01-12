@@ -2,7 +2,6 @@
   "name": "ncoin",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "prestart": "npm run compile",
     "start": "node src/main.js",
