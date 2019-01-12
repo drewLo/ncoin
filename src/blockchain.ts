@@ -48,7 +48,6 @@ const addBlock = (newBlock: Block) => {
     }
 };
 
-
 const isValidnewBlock = (newBlock: Block, previousBlock: Block): boolean => {
     if (previousBlock.index + 1 !== newBlock.index) {
         console.log('invalid index');
