@@ -42,9 +42,10 @@ const generateNextBlock = (blockData: string) => {
 };
 
 const calculateHashForBlock = (block: Block): string => 
-    calculateHash(block.index, block.previousHash, block.timestamp,block.data);
+        calculateHash(block.index, block.previousHash, block.timestamp, block.data, block.difficulty, block.nonce);
 
-const calculateHash = (index: number, previousHash: string, timestamp: number, data: string): string =>
+const calculateHash = (index: number, previousHash: string, timestamp: number, data: string,
+        difficulty: number, nonce: number): string =>
     CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
 
 const isValidTimeStamp = (newBlock: Block, previousBlock: Block): boolean => {
