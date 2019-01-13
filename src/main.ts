@@ -18,7 +18,7 @@ const initHttpServer = (myHttpPort: number) => {
         res.send(newBlock);
     });
     app.get('/peers', (req, res) => {
-        res.send(getSockets().map(( s: any ) => s._socket.remoteAddress+ ':' + s._socket.remotePort));
+                res.send(getSockets().map((s: any) => s._socket.remoteAddress + ':' + s._socket.remotePort));
     });
     app.post('/addPeer', (req, res) => {
         connectToPeers(req.body.peer);
