@@ -104,6 +104,7 @@ const findBlock = (index: number, previousHash: string, timestamp: number, data:
         }
 }
 
+const addBlockToChain = (newBlock: Block) => {
     if (isValidnewBlock(newBlock, getLatestBlock())) {
         blockchain.push(newBlock);
         return true;
