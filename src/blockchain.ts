@@ -37,7 +37,10 @@ const generateNextBlock = (blockData: string) => {
         const difficulty: number = getDifficulty(getBlockchain());
         console.log('difficulty: ' + difficulty);
     const nextIndex: number = previousBlock.index + 1;
+        const nextTimestamp: number = getCurrentTimestamp();
         const newBlock: Block = findBlock(nextIndex, previousBlock.hash, nextTimestamp, blockData, difficulty);
+        addBlockToChain(newBlock);
+        broadcastLatest();
     return newBlock;
 };
 
