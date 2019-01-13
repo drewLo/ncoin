@@ -94,6 +94,16 @@ const isValidChain = (blockchainToValidate: Block[]): boolean => {
 }
 
 const findBlock = (index: number, previousHash: string, timestamp: number, data: string, difficulty: number): Block => {
+        let nonce = 0;
+        while (true) {
+                const hash: string = calculateHash(index, previousHash, timestamp, data, difficulty, nonce);
+                if (hashMatchesDifficulty(hash, difficulty) {
+                        return new Block(index, hash, previousHash, timestamp, data, difficulty, nonce);
+                }
+                nonce++;
+        }
+}
+
     if (isValidnewBlock(newBlock, getLatestBlock())) {
         blockchain.push(newBlock);
         return true;
