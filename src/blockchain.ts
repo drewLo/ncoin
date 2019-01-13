@@ -32,6 +32,9 @@ const getBlockchain = (): Block[] => blockchain;
 
 const getLatestBlock = (): Block => blockchain[blockchain.length - 1];
 
+
+const getCurrentTimestamp = (): number => Math.round(new Date().getTime() / 1000);
+
 const generateNextBlock = (blockData: string) => {
     const previousBlock: Block = getLatestBlock();
         const difficulty: number = getDifficulty(getBlockchain());
