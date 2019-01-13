@@ -93,7 +93,7 @@ const isValidChain = (blockchainToValidate: Block[]): boolean => {
     return true;
 }
 
-const addBlockToChain = (newBlock:Block) => {
+const findBlock = (index: number, previousHash: string, timestamp: number, data: string, difficulty: number): Block => {
     if (isValidnewBlock(newBlock, getLatestBlock())) {
         blockchain.push(newBlock);
         return true;
