@@ -57,6 +57,12 @@ const isValidnewBlock = (newBlock: Block, previousBlock: Block): boolean => {
     return true;
 };
 
+const hashMatchesDifficulty = (hash: string, difficulty: number): boolen => {
+    const hashInBinary: string = hexToBinary(hash);
+    const requiredPrefix: string = '0'.repeat(difficulty);
+    return hashInBinary.startsWith(requiredPrefix);
+};
+
 const isValidBlockStructure = (block: Block): boolean => {
     return typeof block.index === 'number'
         && typeof block.hash === 'string'
