@@ -48,10 +48,17 @@ const calculateHash = (index: number, previousHash: string, timestamp: number, d
         difficulty: number, nonce: number): string =>
     CryptoJS.SHA256(index + previousHash + timestamp + data).toString();
 
+const addBlock = (newBlock: Block) => {
+        if (isValidnewBlock(newBlock, getLatestBlock())) {
+                blockchain.push(newBlock);
+        }
+};
+
 const isValidTimeStamp = (newBlock: Block, previousBlock: Block): boolean => {
         return (previousBlock.timestamp - 60 < newBlock.timestamp)
                 && newBlock.timestamp - 60 < getCurrentTimestamp();
 };
+
 const isValidnewBlock = (newBlock: Block, previousBlock: Block): boolean => {
     if (previousBlock.index + 1 !== newBlock.index) {
         console.log('invalid index');
