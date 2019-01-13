@@ -62,7 +62,7 @@ const isValidnewBlock = (newBlock: Block, previousBlock: Block): boolean => {
     return true;
 };
 
-const hashMatchesDifficulty = (hash: string, difficulty: number): boolen => {
+const hashMatchesDifficulty = (hash: string, difficulty: number): boolean => {
     const hashInBinary: string = hexToBinary(hash);
     const requiredPrefix: string = '0'.repeat(difficulty);
     return hashInBinary.startsWith(requiredPrefix);
@@ -85,7 +85,7 @@ const isValidChain = (blockchainToValidate: Block[]): boolean => {
         return false;
     }
 
-    for  (let i = 1; i < blockchainToValidate.length; i++) {
+        for (let i = 1; i < blockchainToValidate.length; i++) {
         if (!isValidnewBlock(blockchainToValidate[i], blockchainToValidate[i - 1])) {
             return false;
         }
