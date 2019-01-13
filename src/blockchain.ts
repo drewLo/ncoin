@@ -28,6 +28,12 @@ const genesisBlock: Block = new Block(
 
 let blockchain: Block[] = [genesisBlock];
 
+// in seconds
+const BLOCK_GENERATION_INTERVAL: number = 10;
+
+// in blocks
+const DIFFICULTY_ADJUSTMENT_INTERVAL: number = 10;
+
 const getBlockchain = (): Block[] => blockchain;
 
 const getLatestBlock = (): Block => blockchain[blockchain.length - 1];
