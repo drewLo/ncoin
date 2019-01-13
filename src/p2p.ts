@@ -15,7 +15,7 @@ class Message {
 }
 
 const initP2PServer = (p2pPort: number) => {
-    const server: Server = new WebSocket.Server({port: p2pPort});
+        const server: Server = new WebSocket.Server({ port: p2pPort });
     server.on('connection', (ws: WebSocket) => {
         initConnection(ws);
     });
