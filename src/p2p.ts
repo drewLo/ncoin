@@ -123,7 +123,6 @@ const handleBlockchainResponse = (receivedBlocks: Block[]) => {
     }
 };
 
-
 const broadcastLatest = (): void => {
     broadcast(responseLatestMsg());
 };
