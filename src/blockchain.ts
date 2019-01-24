@@ -178,9 +178,7 @@ const isValidnewBlock = (newBlock: Block, previousBlock: Block): boolean => {
                 return false;
         } else if (calculateHashForBlock(newBlock) !== newBlock.hash) {
                 console.log(
-                        typeof newBlock.hash +
-                                " " +
-                                typeof calculateHashForBlock(newBlock)
+            typeof newBlock.hash + " " + typeof calculateHashForBlock(newBlock)
                 );
                 console.log(
                         "invalid hash: " +
