@@ -266,7 +266,8 @@ const addBlockToChain = (newBlock: Block) => {
 const replaceChain = (newBlocks: Block[]) => {
         if (
                 isValidChain(newBlocks) &&
-                newBlocks.length > getBlockchain().length
+        getAccumulatedDifficulty(newBlocks) >
+            getAccumulatedDifficulty(getBlockchain())
         ) {
                 console.log(
                         "Received blockchain is valid. Replacing current blockchain with received blockchain"
