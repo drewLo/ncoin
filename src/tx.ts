@@ -81,9 +81,7 @@ const validateBlockTransactions = (
 ): boolean => {
     const coinbaseTx = aTransactions[0];
     if (!validateCoinbaseTx(coinbaseTx, blockIndex)) {
-        console.log(
-            "invalid coinbase transaction: " + JSON.stringify(coinbaseTx)
-        );
+        console.log("invalid coinbase transaction: " + JSON.stringify(coinbaseTx));
         return false;
     }
 
@@ -135,28 +133,6 @@ class UnspentTxOut {
     }
 }
 
-let unspentTxOuts: UnspentTxOut[] = [];
-
-const newUnspentTxOuts: UnspentTxOut[] = newTransactions
-    .map(t => {
-        return t.txOuts.map(
-            (txOut, index) =>
-                new UnspentTxOut(t.id, index, txOut.addresss, txOut.amount)
-        );
-    })
-    .reduce((a, b) => a.concat(b), []);
-
-const consumedTxOuts: UnspentTxOut[] = newTransactions
-    .map(t => t.txIns)
-    .reduce((a, b) => a.concent(b), [])
-    .map(txIn => new UnspentTxOut(txIn.TxOutId, txIn.txOutIndex, "", 0));
-
-const resultingUnspentTxOuts = aUnspentTxOuts
-    .filter(
-        uTxO => !findUnspentTxOut(uTxO.txOutId, uTxO.txOutIndex, consumedTxOuts)
-    )
-    .concat(newUnspentTxOuts);
-
 const isValidTxInStructure = (txIn: TxIn): boolean => {
     if (txIn == null) {
         console.log("txIn is null");
@@ -185,7 +161,7 @@ const isValidTxOutStructure = (txOut: TxOut): boolean => {
     } else if (!isValidAddress(txOut.address)) {
         return false;
     } else if (typeof txOut.amount !== "number") {
-        console.log("invalid amount typ in txOut");
+        console.log("invalid amount type in txOut");
         return false;
     } else {
         return true;
@@ -199,13 +175,27 @@ const isValidTransactionsStructure = (transactions: Transaction[]): boolean => {
 };
 
 const isValidTransactionStructure = (transaction: Transaction) => {
-    if (typeof Transaction.id !== "string") {
+    if (typeof transaction.id !== "string") {
         console.log("transaction missing");
         return false;
-    }
-    if (getTransactionId(transaction) !== Transaction.id) {
-        console.log("invalid tx id: " + transaction.id);
+    } else if (!(transaction.txIns instanceof Array)) {
+        console.log("invalid txIns type in transaction");
         return false;
+    } else if (
+        !transaction.txIns.map(isValidTxInStructure).reduce((a, b) => a && b, true)
+    ) {
+        return false;
+    } else if (!(transaction.txOuts instanceof Array)) {
+        console.log("invalid txIns type in transaction");
+        return false;
+    } else if (
+        !transaction.txOuts
+            .map(isValidTxOutStructure)
+            .reduce((a, b) => a && b, true)
+    ) {
+        return false;
+    } else {
+        return true;
     }
 };
 
@@ -228,16 +218,15 @@ const validateTxIn = (
 };
 
 const getTxInAmount = (txIn: TxIn, aUnspentTxOuts: UnspentTxOut[]): number => {
-    return findUnspentTxOut(txIn.txOutId, txIn.txOutIndex, aUnspentTxOuts)
-        .amount;
+    return findUnspentTxOut(txIn.txOutId, txIn.txOutIndex, aUnspentTxOuts).amount;
 };
 
 const findUnspentTxOut = (
     transactionId: string,
     index: number,
-    aUnspentTxOUts: UnspentTxOut[]
+    aUnspentTxOuts: UnspentTxOut[]
 ): UnspentTxOut => {
-    return aUnspentTxOUts.find(
+    return aUnspentTxOuts.find(
         uTxO => uTxO.txOutId === transactionId && uTxO.txOutIndex === index
     );
 };
@@ -272,8 +261,18 @@ const signTxIn = (
         aUnspentTxOuts
     );
     const referencedAddress = referencedUnspentTxOut.address;
+
+    if (getPublicKey(privateKey) !== referencedAddress) {
+        console.log(
+            "trying to sign an input with private" +
+            " key that does not match the address that is rferenced in txIn"
+        );
+        throw Error();
+    }
+
     const key = ec.keyFromPrivate(privateKey, "hex");
     const signature: string = toHexString(key.sign(dataToSign).toDER());
+
     return signature;
 };
 
@@ -296,8 +295,7 @@ const updateUnspentTxOuts = (
 
     const resultingUnspentTxOuts = aUnspentTxOuts
         .filter(
-            uTxO =>
-                !findUnspentTxOut(uTxO.txOutId, uTxO.txOutIndex, consumedTxOuts)
+            uTxO => !findUnspentTxOut(uTxO.txOutId, uTxO.txOutIndex, consumedTxOuts)
         )
         .concat(newUnspentTxOuts);
 
@@ -329,7 +327,7 @@ const toHexString = (byteArray): string => {
 const getPublicKey = (aPrivateKey: string): string => {
     return ec
         .keyFromPrivate(aPrivateKey, "hex")
-        .getPUblic()
+        .getPublic()
         .encode("hex");
 };
 
@@ -358,4 +356,31 @@ const validateCoinbaseTx = (
         return false;
     }
     return true;
+};
+
+const isValidAddress = (address: string): boolean => {
+    if (address.length !== 130) {
+        console.log("invalid public key length");
+        return false;
+    } else if (address.match("^[a-fA-F0-9]+$") === null) {
+        console.log("public key must contain only hex characters");
+        return false;
+    } else if (!address.startsWith("04")) {
+        console.log("public key must start with 04");
+        return false;
+    } else {
+        return true;
+    }
+};
+
+export {
+    processTransactions,
+    signTxIn,
+    getTransactionId,
+    UnspentTxOut,
+    TxIn,
+    TxOut,
+    getCoinbaseTransaction,
+    getPublicKey,
+    Transaction
 };

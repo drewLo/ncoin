@@ -8,31 +8,49 @@ const httpPort: number = parseInt(process.env.HTTP_PORT) || 3001;
 const p2pPort: number = parseInt(process.env.P2P_PORT) || 6001;
 
 const initHttpServer = (myHttpPort: number) => {
-        const app = express();
-        app.use(bodyParser.json());
+    const app = express();
+    app.use(bodyParser.json());
 
-        app.get("/blocks", (req, res) => {
-                res.send(getBlockchain());
-        });
-        app.post("/mineBlock", (req, res) => {
-                const newBlock: Block = generateNextBlock(req.body.data);
-                res.send(newBlock);
-        });
-        app.get("/peers", (req, res) => {
-                res.send(
-                        getSockets().map(
-                                (s: any) => s._socket.remoteAddress + ":" + s._socket.remotePort
-                        )
-                );
-        });
-        app.post("/addPeer", (req, res) => {
-                connectToPeers(req.body.peer);
-                res.send();
-        });
+    app.use((err, req, res, next) => {
+        if (err) {
+            res.status(400).send(err.message)
+        }
+    });
 
-        app.listen(myHttpPort, () => {
-                console.log("Listening http on port: " + myHttpPort);
-        });
+    app.get("/blocks", (req, res) => {
+        res.send(getBlockchain());
+    });
+    app.post("/mineBlock", (req, res) => {
+        if (req.body.data == null) {
+            res.send('data parameter is missing');
+        }
+        const newBlock: Block = generateNextBlock(req.body.data);
+        if (newBlock === null) {
+            res.status(400).send('could not generate block');
+        } else {
+            res.send(newBlock);
+        }
+    });
+    app.get("/peers", (req, res) => {
+        res.send(
+            getSockets().map(
+                (s: any) => s._socket.remoteAddress + ":" + s._socket.remotePort
+            )
+        );
+    });
+    app.post("/addPeer", (req, res) => {
+        connectToPeers(req.body.peer);
+        res.send();
+    });
+    app.post('/mineTransaction', (req, res) => {
+        const address = req.body.address;
+        const amount = req.body.amount;
+        const resp = generateNextBlockWithTransaction(address, amount);
+        res.send(resp);
+    })
+    app.listen(myHttpPort, () => {
+        console.log("Listening http on port: " + myHttpPort);
+    });
 };
 
 initHttpServer(httpPort);
